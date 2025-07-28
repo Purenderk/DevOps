@@ -22,10 +22,11 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and Push Docker Image
+    - name: Build and Push Docker Image using Buildx
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-app:latest ./app
-        docker push ${{ secrets.DOCKER_USERNAME }}/flask-app:latest
+        docker buildx build --push \
+          -t ${{ secrets.DOCKER_USERNAME }}/flask-app:latest \
+          ./app
 
     - name: Run SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
